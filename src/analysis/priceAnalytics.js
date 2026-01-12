@@ -4,10 +4,16 @@ export const analyzeKlines = (klines) => {
        return null;
     }
 
-    const openPrices = klines[0][1];
-    const closePrices = klines[klines.length - 1][4];
+    const openPrices = parseFloat(klines[0][1]);
+    const closePrices = parseFloat(klines[klines.length - 1][4]);
 
-    console.log(openPrices, closePrices);
+    const change = parseFloat((closePrices - openPrices));
+    const changePercentage = parseFloat(((change / openPrices) * 100));
 
-    return klines;
+    return {
+        openPrices,
+        closePrices,
+        change,
+        changePercentage
+    };
 };
