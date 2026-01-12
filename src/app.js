@@ -1,5 +1,5 @@
 import express from 'express';
-import binanceService from './services/binance.service.js';
+import priceAnalytics from './analysis/priceAnalytics.js';
 
 const app = express();
 app.use(express.json());
@@ -8,7 +8,7 @@ app.get('/', (req, res) => {
   res.send('Hello World');
 });
 
-app.use("/api/binance", binanceService);
+app.use("/api/analytics", priceAnalytics);
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
