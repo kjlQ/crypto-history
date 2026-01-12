@@ -1,13 +1,13 @@
 import { getKlines } from '../services/binanceService';
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { analyzeKlines } from '../analysis/priceAnalytics';
-import { Analytics } from '../types/analytics.types';
+import { Analytics, AnalyticsQuery, AnalyticsResponse } from '../types/analytics.types';
 
 const router = Router();
 
-router.get('/', async (req, res) => {
+router.get('/', async (req: Request<AnalyticsQuery>, res: Response<AnalyticsResponse>) => {
     try {
-        const { symbol, interval, startTime, endTime } = req.query as { symbol: string, interval: string, startTime: string, endTime: string };
+        const { symbol, interval, startTime, endTime } = req.query as AnalyticsQuery;
 
         if(!symbol || !interval || !startTime || !endTime) {
             const error = new Error('Missing required parameters') as Error & {status: number};
@@ -25,12 +25,12 @@ router.get('/', async (req, res) => {
         const analytics = analyzeKlines(klines) as Analytics;
         
         res.json({
-            success: true,
+            message: "success",
             data: {
                 openPrices: analytics.openPrices,
                 closePrices: analytics.closePrices,
-                priceChange: analytics.change,
-                priceChangePercentage: analytics.changePercentage,
+                change: analytics.change,
+                changePercentage: analytics.changePercentage,
                 dateOpen: new Date(klines[0][0]).toISOString(),
                 dateClose: new Date(klines[klines.length - 1][0]).toISOString(),
             },
@@ -42,8 +42,9 @@ router.get('/', async (req, res) => {
         });
     } catch (error: any) {
         res.status(error.status || 500).json({
-            success: false,
             message: error.message,
+            data: null,
+            meta: null
         });
     }
 });
