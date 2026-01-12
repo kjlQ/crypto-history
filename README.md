@@ -7,7 +7,7 @@
 1. Clone the repository:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/kjlQ/crypto-history
 cd test-assign
 ```
 
@@ -15,12 +15,6 @@ cd test-assign
 
 ```bash
 npm install
-```
-
-3. Create a `.env` file in the root directory (if needed):
-
-```env
-BINANCE_BASE_URL=https://api.binance.com/api/v3
 ```
 
 ### Running the Application
