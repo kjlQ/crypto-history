@@ -78,3 +78,21 @@ curl "http://localhost:3000/api/analytics?symbol=BTCUSDT&interval=1h&startTime=1
   }
 }
 ```
+
+#### Test Suite
+
+1. **Valid Parameters Test**: Verifies successful response when all required parameters are valid
+   - Tests with valid symbol, interval, startTime, and endTime
+   - Mocks Binance API responses and analytics calculations
+
+2. **Missing Parameters Test**: Validates proper error handling when required parameters are missing
+   - Expected response: 400 Bad Request
+   - Tests undefined symbol, interval, startTime, and endTime
+
+3. **Invalid Time Parameters Test**: Checks validation of time parameter formats
+   - Expected response: 400 Bad Request
+   - Tests with non-numeric time values
+
+4. **API Failure Test**: Ensures proper error handling when external API calls fail
+   - Expected response: 500 Internal Server Error
+   - Simulates Binance API failures
