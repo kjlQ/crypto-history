@@ -1,11 +1,13 @@
-import { getKlines } from '../services/binanceService.js';
-import { Router } from 'express';
+export const analyzeKlines = (klines) => {
 
-const router = Router();
+    if(klines.length === 0) {
+       return null;
+    }
 
-router.get('/', async (req, res) => {
-  const klines = await getKlines(req.query.symbol, req.query.interval, req.query.startTime, req.query.endTime);
-  res.json(klines);
-});
+    const openPrices = klines[0][1];
+    const closePrices = klines[klines.length - 1][4];
 
-export default router;
+    console.log(openPrices, closePrices);
+
+    return klines;
+};
