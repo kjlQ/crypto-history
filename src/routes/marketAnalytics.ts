@@ -1,6 +1,7 @@
 import { getKlines } from '../services/binanceService';
 import { Router } from 'express';
 import { analyzeKlines } from '../analysis/priceAnalytics';
+import { Analytics } from '../types/analytics.types';
 
 const router = Router();
 
@@ -9,19 +10,19 @@ router.get('/', async (req, res) => {
         const { symbol, interval, startTime, endTime } = req.query as { symbol: string, interval: string, startTime: string, endTime: string };
 
         if(!symbol || !interval || !startTime || !endTime) {
-            const error = new Error('Missing required parameters');
-            (error as any).status = 400;
+            const error = new Error('Missing required parameters') as Error & {status: number};
+            error.status = 400;
             throw error;
         }
 
         if(isNaN(Number(startTime)) || isNaN(Number(endTime))) {
-            const error = new Error('Invalid time parameters');
-            (error as any).status = 400;
+            const error = new Error('Invalid time parameters') as Error & {status: number};
+            error.status = 400;
             throw error;
         }
 
         const klines = await getKlines(symbol, interval, startTime, endTime);
-        const analytics = analyzeKlines(klines);
+        const analytics = analyzeKlines(klines) as Analytics;
         
         res.json({
             success: true,
